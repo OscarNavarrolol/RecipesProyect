@@ -1,16 +1,20 @@
 const jwt = require('jsonwebtoken');
-const config = require('config')
+const { jwtSecret } = require('../config/config')
 
-exports.verify = function (req, res, next) {
-    if (!req.headers.authorization) {
-        return res.status(401).send("Not authenticated")
+exports.verify = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+  
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Not authenticated' });
     }
-    const token = req.headers.authorization.split(' ')[1]
-    if (token === 'null') {
-        return res.status(401).send("Not authenticated")
+  
+    const token = authHeader.split(' ')[1];
+  
+    try {
+      const payload = jwt.verify(token, jwtSecret);
+      req.userId = payload.id;
+      next();
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' });
     }
-
-    const payload = jwt.verify(token, config.get('login.key'))
-    req.userId = payload._id
-    next();
-}
+  };

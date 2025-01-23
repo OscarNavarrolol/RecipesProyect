@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../../config/config')
 const { verifyEmail, createUser } = require('./userRepository');
 
 exports.signup = async (name, email, password) => {
@@ -26,7 +27,7 @@ exports.signin = async (email, password) => {
 
   const token = jwt.sign(
     { id: user.id, email: user.email },
-    process.env.JWT_SECRET || 'defaultSecret',
+    jwtSecret,
     { expiresIn: '1h' }
   );
 

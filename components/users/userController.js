@@ -24,3 +24,13 @@ exports.signin = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.saludo = async (req, res) => {
+  try {
+    const  user = req.userId;
+    console.log(req.userId)
+    res.status(201).json({ message: `Hola  user #${user}` });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
