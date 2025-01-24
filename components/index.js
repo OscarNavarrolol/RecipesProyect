@@ -1,3 +1,4 @@
 exports.routes = [
-    require('./users/userRoute')
+    require('./users/userRoute'),
+    require('./api/apiRoute')
 ]

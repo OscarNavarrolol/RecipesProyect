@@ -9,5 +9,5 @@ module.exports = {
   },
   jwtSecret: process.env.LOGIN_KEY ,
   port: process.env.PORT ,
-  api: process.env.API_KEY
+
 };
