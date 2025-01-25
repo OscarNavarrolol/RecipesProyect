@@ -28,3 +28,22 @@ exports.fetchMealDetailsById = async (mealId) => {
     throw new Error('Failed to fetch meal details');
   }
 };
+
+exports.fetchMealsByName = async (name) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/search.php?s=${name}`);
+    return response.data.meals;
+  } catch (error) {
+    throw new Error('Failed to fetch meals by name');
+  }
+};
+
+exports.fetchRandomMeal = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/random.php`);
+    return response.data.meals[0]; // Devuelve solo una comida
+  } catch (error) {
+    throw new Error('Failed to fetch random meal');
+  }
+};
+

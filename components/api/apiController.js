@@ -1,5 +1,5 @@
 const { esUndefined } = require('../utils/validator');
-const { fetchMealDetailsById, fetchMealsByCategory, fetchCategory } = require('./apiService');
+const { fetchMealDetailsById, fetchMealsByCategory, fetchCategory, fetchMealsByName, fetchRandomMeal } = require('./apiService');
 
 exports.getCategory = async (req, res) => {
   try {
@@ -37,6 +37,30 @@ exports.getMealDetails = async (req, res) => {
     const mealDetails = await fetchMealDetailsById(id);
     res.status(200).json({ data: mealDetails });
     
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getMealsByName = async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    if (esUndefined(name)) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+
+    const meals = await fetchMealsByName(name);
+    res.status(200).json({ data: meals });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getRandomMeal = async (req, res) => {
+  try {
+    const randomMeal = await fetchRandomMeal();
+    res.status(200).json({ data: randomMeal });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
